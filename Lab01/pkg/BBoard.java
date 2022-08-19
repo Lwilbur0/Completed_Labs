@@ -4,11 +4,18 @@ import java.io.*;
 
 public class BBoard {		// This is your main file that connects all classes.
 	// Think about what your global variables need to be.
+	public static User user;
+	public static String title;
+	public static ArrayList<User> userList = new ArrayList<User>();
+	
+	private Scanner scanner = new Scanner(System.in);
+	public Scanner getScanner() {
+		return scanner;
+	}
 
 	// Default constructor that creates a board with a defaulttitle, empty user and message lists,
 	// and no current user
 	public BBoard() {
-		
 	}
 
 	// Same as the default constructor except it sets the title of the board
@@ -19,7 +26,13 @@ public class BBoard {		// This is your main file that connects all classes.
 	// Opens and reads the file of all authorized users and passwords
 	// Constructs a User object from each name/password pair, and populates the userList ArrayList.
 	public void loadUsers(String inputFile) throws FileNotFoundException {
-
+		File userFile = new File(inputFile);
+		Scanner in = getScanner();
+		while(in.hasNext()) {
+			String line = in.nextLine();
+			String[] info = line.split(" ");
+			userList.add(new User(info[0], info[1]));
+		}
 	}
 
 	// Asks for and validates a user/password. 
