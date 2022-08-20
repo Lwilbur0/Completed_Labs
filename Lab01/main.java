@@ -8,7 +8,10 @@ class main {        // This should be all that is in your main.java file.
         myBoard.loadUsers(args[0]);
         myBoard.run();
 
-        User user = new User();
+        Message msg = new Message();
+        msg.addChild(new Message());
+        msg.addChild(new Message());
+        msg.print(0);
 
         // Feel free to add code for testing purposes. 
 
