@@ -4,10 +4,10 @@ import java.io.*;
 
 public class BBoard {		// This is your main file that connects all classes.
 	// Think about what your global variables need to be.
-	public static User currentUser;
-	public static String title;
-	public static ArrayList<User> userList;
-	public static ArrayList<Message> msgList;
+	private static User currentUser;
+	private static String title;
+	private static ArrayList<User> userList;
+	private static ArrayList<Message> msgList;
 	// messageList
 	
 	private Scanner scanner = new Scanner(System.in);
@@ -19,7 +19,7 @@ public class BBoard {		// This is your main file that connects all classes.
 	// and no current user
 	public BBoard() {
 		currentUser = null;
-		title = "lwilbs board";
+		title = "Lwilbs BBoard";
 		userList = new ArrayList<User>();
 		msgList = new ArrayList<Message>();
 	}
@@ -53,7 +53,25 @@ public class BBoard {		// This is your main file that connects all classes.
 	// If not, it will keep asking until a match is found or the user types 'q' or 'Q' as username to quit
 	// When the users chooses to quit, sayu "Bye!" and return from the login function
 	public void login(){
-
+		Scanner in = getScanner();
+		while(true) {
+			System.out.print("Enter your username ('Q' or 'q' to quit): ");
+			String username = in.next();
+			if (username.equalsIgnoreCase("q")) {
+				System.out.print("Bye!");
+				return;
+			}
+			System.out.print("Enter your password: ");
+			String password = in.next();
+			for (User u: userList) {
+				if (u.check(username, password)) {
+					currentUser = u;
+					System.out.println("\nWelcome back " + username + "!\n");
+					return;
+				}
+			}
+			System.out.println("Invalid Username or Password\n");
+		}
 	}
 	
 	// Contains main loop of Bulletin Board
@@ -67,7 +85,42 @@ public class BBoard {		// This is your main file that connects all classes.
 	// Q/q should reset the currentUser to 0 and then end return
 	// Note: if login() did not set a valid currentUser, function must immediately return without showing menu
 	public void run(){
+		Scanner in = getScanner();
+		System.out.println(title);
+		login();
+		while (true) {	
+			if (currentUser != null) {
+				System.out.println("Menu");
+				System.out.println("  - Display Messages ('D' or 'd')");
+				System.out.println("  - Add New Topic ('N' or 'n)");
+				System.out.println("  - Add New Reply to a Topic ('R' or 'r')");
+				System.out.println("  - Change Password ('P' or 'p')");
+				System.out.println("  - Quit ('Q' or 'q')");
+				System.out.print("Choose an action: ");
+				String choice = in.next();
 
+				switch(choice.toUpperCase()) {
+					case "D":
+						display();
+						break;
+					case "N":
+						addTopic();
+						break;
+					case "R":
+						addReply();
+						break;
+					case "P":
+						setPassword();
+						break;
+					case "Q":
+						currentUser = null;
+						System.out.print("\nBye!");
+						return;
+					default: 
+					System.out.println("\nWrong Input - Please enter another.\n");
+				}
+			} 
+		}
 	}
 
 	// Traverse the BBoard's message list, and invote the print function on Topic objects ONLY
@@ -137,7 +190,14 @@ public class BBoard {		// This is your main file that connects all classes.
 	// Any password is allowed except 'c' or 'C' for allowing the user to quit out to the menu. 
 	// Once entered, the user will be told "Password Accepted." and returned to the menu.
 	private void setPassword(){
-		
+		System.out.print("\nOld Password ('c' or 'C'): ");
+		Scanner in = getScanner();
+		String oldPsw = in.next();
+		if (currentUser.check(currentUser.getUsername(), oldPsw)) {
+			System.out.println("Please enter your new password: ");
+			String newPsw = in.next();
+			
+		}
 	}
 
 }

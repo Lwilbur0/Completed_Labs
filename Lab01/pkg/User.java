@@ -26,7 +26,7 @@ public class User{
 	// Note that, even with a User with empty name and password, this is actually a valid User object (it is the default User), 
 	// This function must still return false if given an empty username string.  
 	public boolean check(String usr, String psd){
-		if (usr == username && psd == password && usr != null) {
+		if (usr.equals(username) && psd.equals(password) && !usr.equals(null)) {
 			return true;
 		}
 		else {
