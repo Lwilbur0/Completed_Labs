@@ -39,7 +39,7 @@ public class User{
 	// Also, a default User cannot have its password changed. 
 	// Return true if password changed, return false if not.
 	public boolean setPassword(String oldPass, String newPass){
-		if (oldPass == password) {
+		if (oldPass.equals(password)) {
 			password = newPass;
 			return true;
 		}

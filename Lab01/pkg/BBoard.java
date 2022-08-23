@@ -146,7 +146,14 @@ public class BBoard {		// This is your main file that connects all classes.
 	// Once the Topic has been constructed, add it to the messageList
 	// This should invoke your inheritance of Topic to Message
 	private void addTopic(){
-
+		Scanner in = getScanner();
+		System.out.print("\nSubject: ");
+		String subj = in.next();
+		System.out.print("Body: ");
+		String body = in.next();
+		Message topic = new Topic(currentUser.getUsername(), subj, body, msgList.size() + 1);
+		msgList.add(topic);
+		System.out.println();
 	}
 
 	// This function asks the user to enter a reply to a given Message (which may be either a Topic or a Reply, so we can handle nested replies).
@@ -179,6 +186,28 @@ public class BBoard {		// This is your main file that connects all classes.
 	// Finally, push back the Message created to the BBoard's messageList. 
 	// Note: When the user chooses to return to the menu, do not call run() again - just return fro mthis addReply function. 
 	private void addReply(){
+		Scanner in = getScanner();
+		int id;
+		System.out.println();
+		while(true){	
+			System.out.print("Enter Message ID (-1 for Menu): ");
+			id = in.nextInt();
+			if (id > msgList.size()) {
+				System.out.println("Invalid Message ID!");
+				continue;
+			}
+			if (id == -1) {
+				return;
+			}
+			else {
+				break;
+			}
+		}
+		System.out.print("Body: ");
+		String body = in.next();
+		Message repl = new Reply(currentUser.getUsername(), msgList.get(msgList.size() - 1).getSubject(), body, id);
+		msgList.add(repl);
+		System.out.println();
 
 	}
 
@@ -190,14 +219,29 @@ public class BBoard {		// This is your main file that connects all classes.
 	// Any password is allowed except 'c' or 'C' for allowing the user to quit out to the menu. 
 	// Once entered, the user will be told "Password Accepted." and returned to the menu.
 	private void setPassword(){
-		System.out.print("\nOld Password ('c' or 'C'): ");
-		Scanner in = getScanner();
-		String oldPsw = in.next();
-		if (currentUser.check(currentUser.getUsername(), oldPsw)) {
-			System.out.println("Please enter your new password: ");
-			String newPsw = in.next();
-			
-		}
+		while (true) {	
+			System.out.print("\nOld Password ('c' or 'C' for Menu): ");
+			Scanner in = getScanner();
+			String oldPsw = in.next();
+			if (oldPsw.toUpperCase().equals("C")) {
+				System.out.println();
+				return;
+			}
+			if (currentUser.check(currentUser.getUsername(), oldPsw)) {
+				while (true) {	
+					System.out.print("Please enter your new password: ");
+					String newPsw = in.next();
+					if (newPsw.toUpperCase().equals("C")) {
+						System.out.println("Please put something other than 'c' or 'C'.\n");
+						continue;
+					}
+					currentUser.setPassword(oldPsw, newPsw);
+					System.out.println("Password Accepted\n");
+					return;
+				}
+			}
+			else {
+				System.out.println("Invalid Password, please re-enter.");
+			}}
 	}
-
 }
