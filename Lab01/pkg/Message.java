@@ -34,23 +34,24 @@ public class Message {
 	// Note: Each indentation increment represents 2 spaces. e.g. if indentation ==  1, the reply should be indented 2 spaces, 
 	// if it's 2, indent by 4 spaces, etc. 
 	public void print(int indentation){
-		// System.out.println(childList.size());
-		// System.out.println(indentation);
 		String indent = "";
 		for (int i = 0; i < indentation; i++) {
 			indent = indent + "  ";
 		}
-		System.out.println(indent + "Message #" + id + ": \"" + subject + "\" ");
+		System.out.println(indent + "Message #" + id + ": " + subject);
 		System.out.println(indent + "From " + author + ": \"" + body + "\"");
-		System.out.println();
-		if (indentation < childList.size()) {
-			Message newReply = childList.get(indentation);
-			newReply.childList = childList;
-			newReply.print(indentation + 1);		
+		for (int i = 0; i < childList.size(); i++) {
+			System.out.println();
+			childList.get(i).print(indentation + 1);
 		}
-		else {
-			return;
-		}
+		
+		
+		// if (indentation < childList.size()) {
+		// 	System.out.println();
+		// 	Message newReply = childList.get(indentation);
+		// 	newReply.childList = childList;
+		// 	newReply.print(indentation + 1);		
+		// }
 	}
 
 	// Default function for inheritance

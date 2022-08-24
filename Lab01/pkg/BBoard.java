@@ -8,8 +8,6 @@ public class BBoard {		// This is your main file that connects all classes.
 	private static String title;
 	private static ArrayList<User> userList;
 	private static ArrayList<Message> msgList;
-	// messageList
-	
 	private Scanner scanner = new Scanner(System.in);
 	public Scanner getScanner() {
 		return scanner;
@@ -56,17 +54,17 @@ public class BBoard {		// This is your main file that connects all classes.
 		Scanner in = getScanner();
 		while(true) {
 			System.out.print("Enter your username ('Q' or 'q' to quit): ");
-			String username = in.next();
+			String username = in.nextLine();
 			if (username.equalsIgnoreCase("q")) {
 				System.out.print("Bye!");
 				return;
 			}
 			System.out.print("Enter your password: ");
-			String password = in.next();
+			String password = in.nextLine();
 			for (User u: userList) {
 				if (u.check(username, password)) {
 					currentUser = u;
-					System.out.println("\nWelcome back " + username + "!\n");
+					System.out.println("\nWelcome back " + username + "!");
 					return;
 				}
 			}
@@ -90,14 +88,14 @@ public class BBoard {		// This is your main file that connects all classes.
 		login();
 		while (true) {	
 			if (currentUser != null) {
-				System.out.println("Menu");
+				System.out.println("\nMenu");
 				System.out.println("  - Display Messages ('D' or 'd')");
 				System.out.println("  - Add New Topic ('N' or 'n)");
 				System.out.println("  - Add New Reply to a Topic ('R' or 'r')");
 				System.out.println("  - Change Password ('P' or 'p')");
 				System.out.println("  - Quit ('Q' or 'q')");
 				System.out.print("Choose an action: ");
-				String choice = in.next();
+				String choice = in.nextLine();
 
 				switch(choice.toUpperCase()) {
 					case "D":
@@ -117,8 +115,11 @@ public class BBoard {		// This is your main file that connects all classes.
 						System.out.print("\nBye!");
 						return;
 					default: 
-					System.out.println("\nWrong Input - Please enter another.\n");
+					System.out.println("\nWrong Input - Please enter another.");
 				}
+			}
+			else {
+				break;
 			} 
 		}
 	}
@@ -127,7 +128,14 @@ public class BBoard {		// This is your main file that connects all classes.
 	// It will then be the responsibility of the Topic object to invoke the print function recursively on its own replies
 	// The BBoard display function will ignore all reply objects in its message list
 	private void display(){
-
+		for (Message m: msgList) {
+			if (!m.isReply()) {
+				System.out.println("\n--------------------------------------------");
+				m.print(0);
+				System.out.print("--------------------------------------------");
+			}
+		}
+		System.out.println();
 	}
 
 
@@ -148,12 +156,11 @@ public class BBoard {		// This is your main file that connects all classes.
 	private void addTopic(){
 		Scanner in = getScanner();
 		System.out.print("\nSubject: ");
-		String subj = in.next();
+		String subj = in.nextLine();
 		System.out.print("Body: ");
-		String body = in.next();
-		Message topic = new Topic(currentUser.getUsername(), subj, body, msgList.size() + 1);
+		String body = in.nextLine();
+		Message topic = new Topic(currentUser.getUsername(), "\"" + subj + "\"", body, msgList.size() + 1);
 		msgList.add(topic);
-		System.out.println();
 	}
 
 	// This function asks the user to enter a reply to a given Message (which may be either a Topic or a Reply, so we can handle nested replies).
@@ -191,7 +198,7 @@ public class BBoard {		// This is your main file that connects all classes.
 		System.out.println();
 		while(true){	
 			System.out.print("Enter Message ID (-1 for Menu): ");
-			id = in.nextInt();
+			id = Integer.parseInt(in.nextLine());
 			if (id > msgList.size()) {
 				System.out.println("Invalid Message ID!");
 				continue;
@@ -203,12 +210,12 @@ public class BBoard {		// This is your main file that connects all classes.
 				break;
 			}
 		}
+		Message lastMsg = msgList.get(msgList.size() - 1);
 		System.out.print("Body: ");
-		String body = in.next();
-		Message repl = new Reply(currentUser.getUsername(), msgList.get(msgList.size() - 1).getSubject(), body, id);
+		String body = in.nextLine();
+		Message repl = new Reply(currentUser.getUsername(), "Re: " + msgList.get(id - 1).getSubject(), body, lastMsg.getId() + 1);
+		msgList.get(id - 1).addChild(repl);
 		msgList.add(repl);
-		System.out.println();
-
 	}
 
 	// This function allows the user to change their current password.
@@ -222,21 +229,20 @@ public class BBoard {		// This is your main file that connects all classes.
 		while (true) {	
 			System.out.print("\nOld Password ('c' or 'C' for Menu): ");
 			Scanner in = getScanner();
-			String oldPsw = in.next();
+			String oldPsw = in.nextLine();
 			if (oldPsw.toUpperCase().equals("C")) {
-				System.out.println();
 				return;
 			}
 			if (currentUser.check(currentUser.getUsername(), oldPsw)) {
 				while (true) {	
 					System.out.print("Please enter your new password: ");
-					String newPsw = in.next();
+					String newPsw = in.nextLine();
 					if (newPsw.toUpperCase().equals("C")) {
 						System.out.println("Please put something other than 'c' or 'C'.\n");
 						continue;
 					}
 					currentUser.setPassword(oldPsw, newPsw);
-					System.out.println("Password Accepted\n");
+					System.out.println("Password Accepted");
 					return;
 				}
 			}

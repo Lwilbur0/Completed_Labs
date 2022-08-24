@@ -8,11 +8,6 @@ class main {        // This should be all that is in your main.java file.
         myBoard.loadUsers(args[0]);
         myBoard.run();
 
-        Message msg = new Message();
-        msg.addChild(new Message());
-        msg.addChild(new Message());
-        // msg.print(0);
-
         // Feel free to add code for testing purposes. 
 
         // Examine data.txt for example Messages displayed from the BBoard
