@@ -44,14 +44,6 @@ public class Message {
 			System.out.println();
 			childList.get(i).print(indentation + 1);
 		}
-		
-		
-		// if (indentation < childList.size()) {
-		// 	System.out.println();
-		// 	Message newReply = childList.get(indentation);
-		// 	newReply.childList = childList;
-		// 	newReply.print(indentation + 1);		
-		// }
 	}
 
 	// Default function for inheritance

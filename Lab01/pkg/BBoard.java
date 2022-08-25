@@ -128,6 +128,10 @@ public class BBoard {		// This is your main file that connects all classes.
 	// It will then be the responsibility of the Topic object to invoke the print function recursively on its own replies
 	// The BBoard display function will ignore all reply objects in its message list
 	private void display(){
+		if (msgList.size() == 0) {
+			System.out.println("\nNothing to display");
+			return;
+		}
 		for (Message m: msgList) {
 			if (!m.isReply()) {
 				System.out.println("\n--------------------------------------------");
