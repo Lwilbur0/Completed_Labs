@@ -18,6 +18,7 @@ class main {
 
 		System.out.println("-------------------Test-------------------");
 		System.out.println("");
+		BaseClass yo = new BaseClass();
 		for(int i : times){
 			System.out.println("Interval: " + i);
 			
@@ -25,10 +26,9 @@ class main {
 			start = System.nanoTime();
 
 			//  Put your method between these two comments
-			BaseClass yo = new BaseClass();
-			// yo.randomize(nums);
+			BaseClass.quickSort(nums, 0, nums.length - 1);
 			// yo.selection(nums);
-			yo.search(nums);
+			// yo.search(nums);
 			//
 
 			finish = System.nanoTime();

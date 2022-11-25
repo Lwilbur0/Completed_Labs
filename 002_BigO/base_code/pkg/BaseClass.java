@@ -163,6 +163,115 @@ public class BaseClass {
 // Duration: 1115418916
 
 // Interval: 1000000
+	public static void mergeSort(int[] arr) {
+		int len = arr.length;
+		if (len <= 1) {
+			return;
+		}
+		int mid = len / 2;
+		int[] arr1 = new int[mid];
+		int[] arr2 = new int[len - mid];
+		for (int i = 0; i < mid; i++) {
+			arr1[i] = arr[i];
+		}
+		for (int i = mid; i < len; i++) {
+			arr2[i - mid] = arr[i];
+		}
+		mergeSort(arr1);
+		mergeSort(arr2);
+		merge(arr, arr1, arr2, mid, len - mid);
+		
 
+	}
+	public static void merge(int[] arr, int[] arr1, int[] arr2, int l, int r) {
+		int i = 0, j = 0, k = 0;
+		while (i < l && j < r) {
+			if (arr1[i] <= arr2[j]) {
+				arr[k++] = arr1[i++];
+			}
+			else {
+				arr[k++] = arr2[j++];
+			}
+		}
+		while (i < l) {
+			arr[k++] = arr1[i++];
+		}
+		while (j < r) {
+			arr[k++] = arr2[j++];
+		}
+	}
+// 	Interval: 10
+// Duration: 973088
+
+// Interval: 100
+// Duration: 108043
+
+// Interval: 1000
+// Duration: 1337908
+
+// Interval: 10000
+// Duration: 2950987
+
+// Interval: 100000
+// Duration: 25677185
+
+// Interval: 1000000
+// Duration: 119072819
+
+// Interval: 10000000
+// Duration: 605757335
+	public static void quickSort(int[] arr, int l, int h) {
+		while (l < h) {
+			int part = partition(arr, l, h);
+			if (part - l <= h-(part + 1)) {
+				quickSort(arr, l, part);
+				l = part + 1;
+			}
+			else {
+				quickSort(arr, part + 1, h);
+				h = part;
+			}
+		}
+		
+		// if (l < h) {
+		// 	int part = partition(arr, l, h);
+		// 	quickSort(arr, l, part - 1);
+		// 	quickSort(arr, part + 1, h);
+		// }
+	}
+	public static int partition (int[] arr, int l, int h) {
+		int pivot = arr[h];
+		int i = (l - 1);
+
+		for (int j = l; j <= h - 1; j++) {
+			if (arr[j] < pivot) {
+				i++;
+				int holder = arr[i];
+				arr[i] = arr[j];
+				arr[j] = holder;
+			}
+		}
+		int holder = arr[i + 1];
+		arr[i + 1] = arr[h];
+		arr[h] = holder;
+		return i + 1;
+	}
+	// Interval: 10
+	// Duration: 8766
+	
+	// Interval: 100
+	// Duration: 102811
+	
+	// Interval: 1000
+	// Duration: 4361613
+	
+	// Interval: 10000
+	// Duration: 19276407
+	
+	// Interval: 100000
+	// Duration: 1340992201
+	
+	// Interval: 1000000
+	// Duration: 130922230749
 
 }
